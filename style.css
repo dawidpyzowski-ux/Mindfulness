@@ -1,0 +1,364 @@
+/* style.css */
+:root {
+    --bg-main: #F3F1ED;
+    --peach-blob: #FBDBC7;
+    --violet-accent: #A78BFA;
+    --violet-accent-soft: #EDE9FE;
+    --text-primary: #333333;
+    --text-secondary: #6B7280;
+    --card-bg: rgba(255, 255, 255, 0.8);
+    --nav-bg: #FFFFFF;
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent; /* iOS: remove tap highlight */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+
+/* TŁO Z ORGANICZNYMI KSZTAŁTAMI */
+.background-blobs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+}
+
+.blob-1 {
+    width: 300px;
+    height: 300px;
+    background-color: var(--peach-blob);
+    top: -50px;
+    right: -100px;
+}
+
+.blob-2 {
+    width: 250px;
+    height: 250px;
+    background-color: var(--peach-blob);
+    bottom: 50px;
+    left: -80px;
+}
+
+/* KONTENER APLIKACJI (Simulated phone width for center view) */
+.app-container {
+    width: 100%;
+    max-width: 480px; /* Max wide for desktop, full for phone */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* NAGŁÓWEK (Status bar space) */
+.app-header {
+    height: 44px; /* iOS notch area roughly */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 101;
+}
+
+/* GŁÓWNA ZAWARTOŚĆ */
+.app-content {
+    flex: 1;
+    padding: 60px 20px 80px 20px; /* Space for header & nav */
+    overflow-y: auto;
+    scrollbar-width: none; /* Firefox */
+}
+.app-content::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+/* STRONY */
+.page {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+.page.active {
+    display: flex;
+}
+
+/* KARTA CYTATU */
+.quote-card-wrapper {
+    background-color: var(--card-bg);
+    padding: 30px;
+    border-radius: 30px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+    margin-bottom: 20px;
+    transition: opacity 0.3s;
+}
+
+.welcome-text {
+    font-family: 'Georgia', serif;
+    font-size: 1.8rem;
+    color: var(--violet-accent);
+    margin-top: 0;
+    margin-bottom: 25px;
+    line-height: 1.2;
+}
+
+.quote-interaction-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.zentangle-icon {
+    width: 60px;
+    height: 60px;
+}
+
+.zentangle-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.fav-star-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.2s;
+}
+
+.fav-star-btn:active { transform: scale(0.9); }
+
+.star-icon {
+    width: 30px;
+    height: 30px;
+    fill: none; /* empty star by default */
+    stroke: var(--violet-accent);
+    stroke-width: 1.5;
+}
+
+.fav-star-btn.active .star-icon {
+    fill: var(--violet-accent); /* filled star when active */
+    stroke: none;
+}
+
+.instruction-text {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 30px;
+}
+
+.quote-text {
+    font-family: 'Georgia', serif;
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    line-height: 1.6;
+    margin-bottom: 10px;
+    display: none; /* hidden on start */
+}
+
+.quote-author {
+    font-size: 0.85rem;
+    font-style: italic;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    display: none; /* hidden on start */
+}
+
+.page.has-quote .instruction-text { display: none; }
+.page.has-quote .quote-text,
+.page.has-quote .quote-author { display: block; }
+
+.secondary-instruction {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 15px;
+}
+
+/* KARTA REFLEKSJI */
+.reflection-card {
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 20px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+}
+
+.reflection-label {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+textarea {
+    width: 100%;
+    height: 80px;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 12px;
+    font-family: sans-serif;
+    font-size: 0.9rem;
+    background: white;
+    margin-bottom: 15px;
+    resize: none;
+}
+textarea:focus { outline: none; border-color: var(--violet-accent); }
+
+/* PRZYCISKI */
+.btn {
+    border: none;
+    border-radius: 50px;
+    padding: 12px 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-family: sans-serif;
+    transition: background-color 0.2s, transform 0.2s;
+    width: 100%;
+    max-width: 200px;
+}
+
+.btn:active { transform: scale(0.97); }
+
+.btn-primary {
+    background-color: var(--violet-accent);
+    color: white;
+    box-shadow: 0 4px 15px rgba(167, 139, 250, 0.4);
+}
+.btn-primary:active { background-color: #7C3AED; }
+
+.btn-secondary {
+    background-color: var(--violet-accent-soft);
+    color: var(--violet-accent);
+    max-width: none;
+}
+.btn-secondary:active { background-color: #EDE9FE; }
+
+/* DZIENNIK I ULUBIONE (Elementy listy) */
+.page-title {
+    font-family: 'Georgia', serif;
+    font-size: 1.8rem;
+    color: var(--text-primary);
+    width: 100%;
+    text-align: left;
+    margin-bottom: 30px;
+}
+
+.list-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.log-item, .fav-item {
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 20px;
+    width: 100%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.01);
+    text-align: left;
+    position: relative;
+}
+
+.log-date, .fav-author {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.log-quote, .fav-quote {
+    font-style: italic;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.log-note {
+    font-size: 1rem;
+    color: var(--text-primary);
+    line-height: 1.5;
+}
+
+.item-delete-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #E5E7EB;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 5px;
+}
+.item-delete-btn:hover { color: #EF4444; }
+
+/* NAWIGACJA DOLNA */
+.app-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--nav-bg);
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 10px 20px 10px; /* Extra bottom padding for home bar */
+    border-top: 1px solid #F3F4F6;
+    z-index: 100;
+}
+
+.app-nav button {
+    flex: 1;
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    text-transform: lowercase;
+    transition: color 0.2s;
+}
+
+.nav-icon {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: var(--text-secondary);
+    stroke-width: 1.5;
+}
+
+.app-nav button.active {
+    color: var(--violet-accent);
+    font-weight: 600;
+}
+
+.app-nav button.active .nav-icon {
+    stroke: var(--violet-accent);
+}
